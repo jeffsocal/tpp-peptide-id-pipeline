@@ -25,23 +25,40 @@
 5. Review the ```00_start_tpp_container.sh``` and update the docker image name variable ```docker_img_name``` to that from the ```docker images``` command.
 
 
+6. Download and setup UniProt
+
+          wget ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/decoy/uniprot_sprot.decoy.fasta.gz
+          wget ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
+
+          gunzip uniprot_sprot.decoy.fasta.gz
+          gunzip uniprot_sprot.fasta.gz
+
+          cat uniprot* > uniprot_sprot.tardec.fasta
+
+ 
+7. Install and setup R
+
+          sudo apt-get install libxml2-dev  
+          R
+          > install.packages('XML')
+          > q()
+
+8. Checkout the R helper tools repository.
+
+        git clone https://github.com/jeffsocal/tpp-post-id-tools.git
+
+
 ## Running the Pipeline
 
-1. Choose the location where you want to run the pipeline and checkout this repository there.
+          vi run.xml
+          docker run xantdem -v <path> -w run.xml 
+          docker run Xtandem2XML -v <path> -w <xtandem_out>.xml 
+          docker run PeptideProphetParser -v <path> -w <xtandem_out>.xml -w <xtandem_out>.pepXML
+          docker run PeptideProphetParser -v <path> -w <xtandem_out>.pepXML -w <xtandem_out>.protXML
 
-        git clone https://github.com/jeffsocal/tpp-peptide-id-pipeline.git
 
-2. Run the ```00_start_tpp_container.sh``` script with one additional commandline argument: the absolute path where the input data are located on the local system, e.g.
+          Rscript --slave pepxml2csv.R 		<path_to.pepXML> 	<path_to.pepXML.csv>
+          Rscript --slave proxml2csv.R 		<path_to.protXML> 	<path_to.protXML.csv>
+          Rscript --slave mzxml2csv.R 		<path_to.mzXML> 	<path_to.mzXML.csv>
+          Rscript --slave merge_scans-ids.R 	<path_to.mzXML.csv> <path_to.pepXML.csv>
 
-        ./00_start_tpp_container.sh /path/to/inputdata
-
-3. This will start the docker container and change the working directory to the pipeline_processing sub-directory where the pipeline will run and the output files will be written.
-
-4. Execute the pipeline running the script ```00_run_pipeline.sh```.  This main script will run a series of processing scripts which are all located under the ```SCRIPTS``` directory.  These scripts also refer to parameter input files located in the ```INI``` directory.  Generally speaking, the user will not need to modify the processing scripts or the parameter files.  For logging purposes the pipeline can be run as:
-
-        00_run_pipeline.sh &> pipeline_log.txt
-
-5. Depending on the number and size of the input files, the pipeline processing might take a long time.  These docker commands are helpful for managing your session:
-    * detach from a running docker instance: ```CTRL-P, CTRL-Q```
-    * list running docker instances: ```docker ps```
-    * re-attach to a running docker instance: ```docker attach CONTAINER_ID``` (get the container ID from ```docker ps```)
