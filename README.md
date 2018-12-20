@@ -18,14 +18,12 @@
           docker pull biocontainers/tpp:5.0
 
 
-4. After the container is downloaded, you can verify it's there via the command below.  Also note the full name of the container image under the REPOSITORY heading.  This name needs to be used in the 00_start_openms_container.sh script.
+4. After the container is downloaded, you can verify it's there via the command below.  Also note the full name of the container image under the REPOSITORY heading. 
 
         docker images
+        
 
-5. Review the docker image name variable ```docker_img_name``` to that from the ```docker images``` command.
-
-
-6. Download and setup UniProt
+5. Download and setup UniProt
 
           wget ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/decoy/uniprot_sprot.decoy.fasta.gz
           wget ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
@@ -36,14 +34,14 @@
           cat uniprot* > uniprot_sprot.tardec.fasta
 
  
-7. Install and setup R
+6. Install and setup R
 
           sudo apt-get install libxml2-dev  
           R
           > install.packages('XML')
           > q()
 
-8. Checkout the R helper tools repository.
+7. Checkout the R helper tools repository.
 
         git clone https://github.com/jeffsocal/tpp-post-id-tools.git
 
