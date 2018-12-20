@@ -22,7 +22,7 @@
 
         docker images
 
-5. Review the ```00_start_tpp_container.sh``` and update the docker image name variable ```docker_img_name``` to that from the ```docker images``` command.
+5. Review the docker image name variable ```docker_img_name``` to that from the ```docker images``` command.
 
 
 6. Download and setup UniProt
