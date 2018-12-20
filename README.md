@@ -54,11 +54,11 @@
           docker run xantdem -v <path> -w run.xml 
           docker run Xtandem2XML -v <path> -w <xtandem_out>.xml 
           docker run PeptideProphetParser -v <path> -w <xtandem_out>.xml -w <xtandem_out>.pepXML
-          docker run PeptideProphetParser -v <path> -w <xtandem_out>.pepXML -w <xtandem_out>.protXML
+          docker run ProteinProphet -v <path> -w <xtandem_out>.pepXML -w <xtandem_out>.protXML
 
 
-          Rscript --slave pepxml2csv.R 		<path_to.pepXML> 	<path_to.pepXML.csv>
-          Rscript --slave proxml2csv.R 		<path_to.protXML> 	<path_to.protXML.csv>
-          Rscript --slave mzxml2csv.R 		<path_to.mzXML> 	<path_to.mzXML.csv>
-          Rscript --slave merge_scans-ids.R 	<path_to.mzXML.csv> <path_to.pepXML.csv>
+          Rscript --slave pepxml2csv.R <path_to.pepXML> <path_to.pepXML.csv>
+          Rscript --slave proxml2csv.R <path_to.protXML> <path_to.protXML.csv>
+          Rscript --slave mzxml2csv.R <path_to.mzXML> <path_to.mzXML.csv>
+          Rscript --slave merge_scans-ids.R <path_to.mzXML.csv> <path_to.pepXML.csv>
 
